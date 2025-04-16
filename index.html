@@ -1,32 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Coming Soon</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            max-width: 800px;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ADD8E6;
-            color: #333;
-        }
-        h1 {
-            margin-top: 5%;
-            font-size: 2.5em;
-        }
-        p {
-            text-align: justify;
-            margin-bottom: 1em;
-            font-size: 1.2em;
-            color: #555;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Website</title>
+  <style>
+    /* Reset and base styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #f4f4f4;
+      color: #333;
+    }
+    /* Fixed header with navigation */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      padding: 10px 0;
+    }
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    /* Hero section */
+    .hero {
+      margin-top: 60px; /* Offset for the fixed header */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 60px);
+      background: url('hero-background.jpg') no-repeat center center/cover;
+      padding: 20px;
+    }
+    /* Hero container for profile image and blurb */
+    .hero-content {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      max-width: 1000px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .hero-content img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+    .hero-content .blurb {
+      max-width: 600px;
+    }
+    @media (max-width: 768px) {
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero-content img {
+        margin-bottom: 20px;
+        margin-right: 0;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Website coming soon.</h1>
+  <!-- Fixed header with navigation links to internal pages -->
+  <header>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero section with background image and centered content -->
+  <section class="hero">
+    <div class="hero-content">
+      <img src="your-photo.jpg" alt="Your Photo" />
+      <div class="blurb">
+        <h1>Blake Canziani</h1>
+        <p>Accounting PhD Student at the University of Florida</p>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
