@@ -13,21 +13,32 @@
       background: #f4f4f4;
       color: #333;
     }
-    /* Fixed header with navigation */
+    /* Fixed header */
     header {
       position: fixed;
       top: 0;
       width: 100%;
       background: rgba(0, 0, 0, 0.7);
       z-index: 1000;
-      padding: 10px 0;
     }
-    nav {
+    /* Container for title + nav */
+    .header-container {
       max-width: 1200px;
       margin: 0 auto;
       display: flex;
-      justify-content: right;
+      justify-content: space-between;
       align-items: center;
+      padding: 10px 20px;
+    }
+    /* Site title */
+    .site-title {
+      color: #fff;
+      font-size: 1.25rem;
+      margin: 0;
+    }
+    /* Navigation links */
+    nav {
+      display: flex;
     }
     nav a {
       color: #fff;
@@ -35,6 +46,7 @@
       padding: 10px 20px;
       font-size: 16px;
       transition: background 0.3s;
+      border-radius: 4px;
     }
     nav a:hover {
       background: rgba(255, 255, 255, 0.2);
@@ -81,13 +93,16 @@
   </style>
 </head>
 <body>
-  <!-- Fixed header with navigation links to internal pages -->
+  <!-- Fixed header with title on left and navigation on right -->
   <header>
-    <nav>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+    <div class="header-container">
+      <h1 class="site-title">Blake Canziani</h1>
+      <nav>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
   </header>
 
   <!-- Hero section with background image and centered content -->
@@ -95,7 +110,6 @@
     <div class="hero-content">
       <img src="Blake_pic.jpg" alt="Photo" />
       <div class="blurb">
-<!--         <h1>Blake Canziani</h1> -->
         <p>Accounting PhD Student at the University of Florida</p>
       </div>
     </div>
