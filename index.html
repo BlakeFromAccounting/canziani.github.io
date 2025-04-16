@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blake Canziani</title>
   <style>
-    /* Reset and base styles */
+    /* Reset + base */
     body, html {
       margin: 0;
       padding: 0;
@@ -13,15 +13,15 @@
       background: #f4f4f4;
       color: #333;
     }
+
     /* Fixed header */
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0,0,0,0.8);
       z-index: 1000;
     }
-    /* Container for title + nav */
     .header-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -30,73 +30,77 @@
       align-items: center;
       padding: 10px 20px;
     }
-    /* Site title */
     .site-title {
       color: #fff;
       font-size: 2rem;
       margin: 0;
-    }
-    /* Navigation links */
-    nav {
-      display: flex;
     }
     nav a {
       color: #fff;
       text-decoration: none;
       padding: 10px 20px;
       font-size: 16px;
+      margin-left: 10px;
       transition: background 0.3s;
       border-radius: 4px;
     }
     nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255,255,255,0.2);
     }
-    /* Hero section */
+
+    /* Thin grey spacer under header */
+    .spacer {
+      height: 8px;
+      background: #f4f4f4;
+      margin-top: 60px; /* offset below fixed header */
+    }
+
+    /* Blue bar as the “card” */
     .hero {
-      margin-top: 60px; /* Offset for the fixed header */
       display: flex;
-      align-items: center;
       justify-content: center;
-      min-height: calc(100vh - 60px);
+      align-items: center;
       background: url('Blue_bar.jpg') no-repeat center center/cover;
-      padding: 20px;
+      padding: 40px 20px;
     }
-    /* Hero container for profile image and blurb */
+    /* Content on the blue bar */
     .hero-content {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 20px;
       display: flex;
       align-items: center;
       max-width: 1000px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      /* no background or shadow here! */
     }
     .hero-content img {
-      width: clamp(150px, 16vw, 400px);
-      height: clamp(150px, 16vw, 400px);
-      border-radius: 0;         /* square corners */
+      width: clamp(150px, 20vw, 400px);
+      height: auto;
       object-fit: cover;
       object-position: center 20%;
       margin-right: 20px;
     }
     .hero-content .blurb {
-      max-width: 600px;
-      font-size: 18px;    /* or use rem: 1.125rem */
-      line-height: 1.4;   /* for better readability */
+      flex: 1;
+      font-size: 18px;
+      line-height: 1.4;
+      color: #fff;               /* white text on blue */
     }
+
+    /* Small‐screen stack */
     @media (max-width: 768px) {
       .hero-content {
         flex-direction: column;
         text-align: center;
       }
       .hero-content img {
-        margin-bottom: 20px;
-        margin-right: 0;
+        width: 150px;
+        height: 150px;
+        margin: 0 0 20px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Fixed header with title on left and navigation on right -->
+  <!-- Header -->
   <header>
     <div class="header-container">
       <h1 class="site-title">Blake Canziani</h1>
@@ -108,10 +112,13 @@
     </div>
   </header>
 
-  <!-- Hero section with background image and centered content -->
+  <!-- Grey spacer -->
+  <div class="spacer"></div>
+
+  <!-- Blue bar (serving as the “card”) -->
   <section class="hero">
     <div class="hero-content">
-      <img src="Blake_pic.jpg" alt="Photo" />
+      <img src="Blake_pic.jpg" alt="Photo of Blake Canziani" />
       <div class="blurb">
         <p>PhD Candidate</p>
         <p>University of Florida, Fisher School of Accounting</p>
@@ -119,5 +126,7 @@
       </div>
     </div>
   </section>
+
+  <!-- Rest of your grey‑background page here -->
 </body>
 </html>
