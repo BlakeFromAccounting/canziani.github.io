@@ -71,12 +71,11 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
     .hero-content img {
-      width: 250px;
-      height: 250px;
-      /* make corners square */
-      border-radius: 0;
+      width: clamp(200px, 40vw, 600px);
+      height: clamp(200px, 40vw, 600px);
+      border-radius: 0;         /* square corners */
       object-fit: cover;
-      object-position: center 6%;
+      object-position: center 20%;
       margin-right: 20px;
     }
     .hero-content .blurb {
