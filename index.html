@@ -27,7 +27,6 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 20px;
-      /* removed max-width and centering margin */
     }
     .site-title {
       color: #fff;
@@ -43,16 +42,10 @@
       transition: background 0.3s;
       border-radius: 4px;
     }
-    nav a:hover {
-      background: rgba(255,255,255,0.2);
-    }
+    nav a:hover { background: rgba(255,255,255,0.2); }
 
     /* Thin grey spacer under header */
-    .spacer {
-      height: 8px;
-      background: #f4f4f4;
-      margin-top: 60px; /* offset below fixed header */
-    }
+    .spacer { height: 8px; background: #f4f4f4; margin-top: 60px; }
 
     /* Blue bar as the “card” */
     .hero {
@@ -64,13 +57,11 @@
       padding: 40px 20px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
-    /* Content on the blue bar */
     .hero-content {
       display: flex;
       align-items: center;
       max-width: 1000px;
       width: 100%;
-      /* no background or shadow here! */
     }
     .hero-content img {
       width: clamp(150px, 20vw, 400px);
@@ -83,20 +74,18 @@
       flex: 1;
       font-size: 24px;
       line-height: 1.2;
-      color: #fff;               /* white text on blue */
+      color: #fff;
     }
+
+    /* Game embed */
+    .game-wrap { max-width: 1000px; margin: 24px auto; padding: 0 20px; }
+    .iframe-16x9 { position: relative; width: 100%; padding-top: 56.25%; border-radius: 10px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,.2); }
+    .iframe-16x9 iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background:#000; }
 
     /* Small‐screen stack */
     @media (max-width: 768px) {
-      .hero-content {
-        flex-direction: column;
-        text-align: center;
-      }
-      .hero-content img {
-        width: 150px;
-        height: 150px;
-        margin: 0 0 20px;
-      }
+      .hero-content { flex-direction: column; text-align: center; }
+      .hero-content img { width: 150px; height: 150px; margin: 0 0 20px; }
     }
   </style>
 </head>
@@ -109,6 +98,7 @@
         <a href="index.html">About</a>
         <a href="projects.html">Projects</a>
         <a href="contact.html">Contact</a>
+        <a href="pac-snake/index.html">Game</a>
       </nav>
     </div>
   </header>
@@ -116,18 +106,27 @@
   <!-- Grey spacer -->
   <div class="spacer"></div>
 
-  <!-- Blue bar (serving as the “card”) -->
+  <!-- Blue bar -->
   <section class="hero">
     <div class="hero-content">
       <img src="Blake_pic.jpg" alt="Photo of Blake Canziani" />
       <div class="blurb">
         <p>PhD Candidate</p>
         <p>University of Florida, Fisher School of Accounting</p>
-        <p>Expected Graduation: May 2026</p>
+        <p>Expected Graduation: May 2026</p>
       </div>
     </div>
   </section>
 
-  <!-- Rest of your grey‑background page here -->
+  <!-- Game embed -->
+  <section class="game-wrap">
+    <h2 style="margin:0 0 12px 0;">Play the Game</h2>
+    <div class="iframe-16x9">
+      <iframe src="pac-snake/index.html" loading="lazy" title="Pac-Snake Game"></iframe>
+    </div>
+    <p style="text-align:center;margin:10px 0 0;">
+      <a href="pac-snake/index.html">Open in a new tab</a>
+    </p>
+  </section>
 </body>
 </html>
