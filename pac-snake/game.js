@@ -215,4 +215,107 @@
     }
 
     const size = cellSize();
-    ctx.clearRect(0, 0, canvas.width,
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // background grid
+    for (let y = 0; y < GRID_H; y++) {
+      for (let x = 0; x < GRID_W; x++) {
+        ctx.fillStyle = (x + y) % 2 === 0 ? "#0b0b0b" : "#111";
+        ctx.fillRect(x * size, y * size, size, size);
+      }
+    }
+
+    // items
+    for (const it of items) {
+      if (it.type === "book") drawEmoji("📚", it.x, it.y, size);
+      else if (it.type === "weight") drawEmoji("🏋️", it.x, it.y, size);
+      else if (it.type === "food") drawEmoji("🍔", it.x, it.y, size);
+    }
+
+    // snake body (excluding head)
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    for (let i = 0; i < snake.length - 1; i++) {
+      const c = snake[i];
+      const alpha = 0.4 + 0.6 * (i / (snake.length - 1));
+      ctx.fillStyle = `rgba(0,200,255,${alpha.toFixed(3)})`;
+      roundRect(ctx, c.x * size + 2, c.y * size + 2, size - 4, size - 4, Math.min(10, size / 3));
+      ctx.fill();
+    }
+
+    // snake head with face
+    const head = snake[snake.length - 1];
+    const hx = head.x * size;
+    const hy = head.y * size;
+    ctx.save();
+    ctx.translate(hx, hy);
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size * 0.48, 0, Math.PI * 2);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size * 0.44, 0, Math.PI * 2);
+    ctx.clip();
+    if (headImg.complete) ctx.drawImage(headImg, 0, 0, size, size);
+    else {
+      ctx.fillStyle = "#333";
+      ctx.fillRect(0, 0, size, size);
+    }
+    ctx.restore();
+    ctx.restore();
+
+    if (dim) {
+      ctx.fillStyle = "rgba(0,0,0,.55)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    if (overlayMsg) {
+      ctx.fillStyle = "#fff";
+      ctx.font = `${Math.max(18, Math.floor(size))}px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
+      ctx.textAlign = "center";
+      ctx.fillText(overlayMsg, canvas.width / 2, canvas.height / 2);
+      ctx.font = `${Math.max(12, Math.floor(size * 0.7))}px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
+      ctx.fillText("Press R to restart", canvas.width / 2, canvas.height / 2 + size * 1.2);
+    }
+  }
+
+  function drawEmoji(glyph, gx, gy, size) {
+    ctx.font = `${Math.floor(size * 0.8)}px serif`;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
+    ctx.fillText(glyph, gx * size + size / 2, gy * size + size / 2 + 1);
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  // ======= Input =======
+  window.addEventListener("keydown", (e) => {
+    const k = e.key.toLowerCase();
+    if (k === "arrowup" || k === "w") nextDir = { x: 0, y: -1 };
+    else if (k === "arrowdown" || k === "s") nextDir = { x: 0, y: 1 };
+    else if (k === "arrowleft" || k === "a") nextDir = { x: -1, y: 0 };
+    else if (k === "arrowright" || k === "d") nextDir = { x: 1, y: 0 };
+    else if (k === " ") togglePlay();
+    else if (k === "r") { initGame(); togglePlay(); }
+    else if (k === "-" || k === "_") setSpeed(speedMult - 0.1);
+    else if (k === "=" || k === "+") setSpeed(speedMult + 0.1);
+  });
+
+  document.getElementById("btnStart")?.addEventListener("click", togglePlay);
+  document.getElementById("btnRestart")?.addEventListener("click", () => { initGame(); togglePlay(); });
+  document.getElementById("btnSlow")?.addEventListener("click", () => setSpeed(speedMult - 0.1));
+  document.getElementById("btnFast")?.addEventListener("click", () => setSpeed(speedMult + 0.1));
+  window.addEventListener("resize", () => draw());
+
+  // Boot
+  initGame();
+})();
