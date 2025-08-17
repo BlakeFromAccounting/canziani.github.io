@@ -33,6 +33,8 @@
   let startTime = 0, elapsed = 0;
   let bestTime = Number(localStorage.getItem("pacsnake.bestTime") || 0);
 
+  let gameOverText = "";
+
   const headImg = new Image();
   headImg.src = "assets/face.png";
 
@@ -152,7 +154,8 @@
       bestTime = elapsed;
       localStorage.setItem("pacsnake.bestTime", String(bestTime));
     }
-    draw("Burgers win!", true);
+    gameOverText = "Burgers win!";
+    draw(); // ensure overlay is painted immediately
   }
 
   function removeSomeBurgers(n){
