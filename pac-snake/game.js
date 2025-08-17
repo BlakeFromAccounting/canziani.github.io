@@ -4,13 +4,11 @@
   const GRID_H = 18;
   const BASE_SPEED = 6;
 
-  // Burgers >> Weights, Books rare
+  // Burgers >> Weights; Books rare
   const ITEM_LIMITS   = { book: 2,  weight: 2,  food: 18 };
   const SPAWN_CHANCE  = { book: 0.010, weight: 0.010, food: 0.120 };
   const WEIGHT_SHRINK_BY = 3;
-
-  // Books remove ONLY burgers
-  const BOOK_BURGER_REMOVALS = 5;
+  const BOOK_BURGER_REMOVALS = 5; // books remove ONLY burgers
 
   // ======= State =======
   const canvas  = document.getElementById("game");
@@ -33,6 +31,7 @@
   let startTime = 0, elapsed = 0;
   let bestTime = Number(localStorage.getItem("pacsnake.bestTime") || 0);
 
+  // Overlay text when game over
   let gameOverText = "";
 
   const headImg = new Image();
@@ -58,14 +57,15 @@
     speedMult = 1;
     stepInterval = 1000 / (BASE_SPEED * speedMult);
     elapsed = 0;
+    gameOverText = "";
 
     // Start length 5 in center
     const cx = Math.floor(GRID_W/2), cy = Math.floor(GRID_H/2);
     for (let i=4;i>=0;i--) snake.push({x: cx - i, y: cy});
 
     // Pre-seed
-    for (let i=0;i<1;i++) trySpawn("book");
-    for (let i=0;i<1;i++) trySpawn("weight");
+    trySpawn("book");
+    trySpawn("weight");
     for (let i=0;i<10;i++) trySpawn("food");
 
     playing = false;
@@ -74,6 +74,8 @@
   }
 
   function togglePlay(){
+    // If game over, block space toggle; require R
+    if (gameOverText) return;
     playing = !playing;
     if (playing){
       startTime = performance.now() - elapsed*1000;
@@ -109,7 +111,6 @@
     const nx = (head.x + dir.x + GRID_W) % GRID_W;
     const ny = (head.y + dir.y + GRID_H) % GRID_H;
     const newHead = { x: nx, y: ny };
-
     snake.push(newHead);
 
     // Item pick-up
@@ -117,7 +118,7 @@
     if (hitIdx >= 0){
       const it = items[hitIdx];
       if (it.type === "book"){
-        removeSomeBurgers(BOOK_BURGER_REMOVALS);
+        removeSomeBurgers(BOOK_BURGER_REMOVALS);          // only burgers
       } else if (it.type === "weight"){
         for (let i=0; i<WEIGHT_SHRINK_BY && snake.length>1; i++) snake.shift();
       } else if (it.type === "food"){
@@ -155,9 +156,10 @@
       localStorage.setItem("pacsnake.bestTime", String(bestTime));
     }
     gameOverText = "Burgers win!";
-    draw(); // ensure overlay is painted immediately
+    draw(); // paint overlay right away
   }
 
+  // Helpers
   function removeSomeBurgers(n){
     const idxs = items.map((it,i)=> it.type==="food" ? i : -1).filter(i=>i>=0);
     for (let i=idxs.length-1;i>0;i--){
@@ -188,7 +190,8 @@
   }
 
   // ======= Rendering =======
-  function draw(overlayMsg="", dim=false){
+  function draw(){
+    // Resize canvas to CSS size to keep crisp grid
     const rect = canvas.getBoundingClientRect();
     const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
     const targetW = Math.floor(rect.width * dpr);
@@ -242,21 +245,19 @@
     ctx.restore();
     ctx.restore();
 
-    if (dim){
+    // === Always show overlay if set (ignores 'playing') ===
+    if (gameOverText){
       ctx.fillStyle = "rgba(0,0,0,.55)";
       ctx.fillRect(0,0,canvas.width,canvas.height);
-    }
-    if (overlayMsg){
-      // Big fun "Burgers win!" text
+
       ctx.fillStyle = "#ff4444";
       ctx.font = `${Math.floor(size * 2.2)}px Impact, sans-serif`;
       ctx.textAlign = "center";
-      ctx.fillText(overlayMsg, canvas.width / 2, canvas.height / 2);
+      ctx.fillText(gameOverText, canvas.width/2, canvas.height/2);
 
-      // Restart hint
       ctx.fillStyle = "#fff";
       ctx.font = `${Math.max(14, Math.floor(size * 0.9))}px system-ui, sans-serif`;
-      ctx.fillText('Hit "R" to restart', canvas.width / 2, canvas.height / 2 + size * 2);
+      ctx.fillText('Hit "R" to restart', canvas.width/2, canvas.height/2 + size * 2);
     }
   }
 
