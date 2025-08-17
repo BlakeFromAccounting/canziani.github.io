@@ -171,7 +171,7 @@
       bestTime = elapsed;
       localStorage.setItem("pacsnake.bestTime", String(bestTime));
     }
-    gameOverText = "Burgers win!";
+    gameOverText = "Burgers Win!";
     draw(); // paint overlay right away
   }
 
