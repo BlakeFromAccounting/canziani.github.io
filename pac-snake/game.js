@@ -8,7 +8,8 @@
   const ITEM_LIMITS   = { book: 2,  weight: 2,  food: 18 };
   const SPAWN_CHANCE  = { book: 0.010, weight: 0.010, food: 0.120 };
   const WEIGHT_SHRINK_BY = 3;
-  const BOOK_BURGER_REMOVALS = 5; // books remove ONLY burgers
+  const MIN_LEN = 1;                 // never shrink below this
+  const BOOK_BURGER_REMOVALS = 5;    // books remove ONLY burgers
 
   // ======= State =======
   const canvas  = document.getElementById("game");
@@ -31,8 +32,11 @@
   let startTime = 0, elapsed = 0;
   let bestTime = Number(localStorage.getItem("pacsnake.bestTime") || 0);
 
-  // Overlay text when game over
+  // overlay text when game is over
   let gameOverText = "";
+
+  // one-frame flag to skip self-collision after a weight shrink
+  let skipSelfCheckOnce = false;
 
   const headImg = new Image();
   headImg.src = "assets/face.png";
@@ -58,6 +62,7 @@
     stepInterval = 1000 / (BASE_SPEED * speedMult);
     elapsed = 0;
     gameOverText = "";
+    skipSelfCheckOnce = false;
 
     // Start length 5 in center
     const cx = Math.floor(GRID_W/2), cy = Math.floor(GRID_H/2);
@@ -120,7 +125,11 @@
       if (it.type === "book"){
         removeSomeBurgers(BOOK_BURGER_REMOVALS);          // only burgers
       } else if (it.type === "weight"){
-        for (let i=0; i<WEIGHT_SHRINK_BY && snake.length>1; i++) snake.shift();
+        // shrink, but never below MIN_LEN
+        const shrinkBy = Math.min(WEIGHT_SHRINK_BY, Math.max(0, snake.length - MIN_LEN));
+        for (let i=0; i<shrinkBy; i++) snake.shift();
+        // avoid any accidental self-hit in this exact frame after a big shrink
+        skipSelfCheckOnce = true;
       } else if (it.type === "food"){
         const currentLen = snake.length;
         const totalCells = GRID_W * GRID_H;
@@ -132,12 +141,19 @@
 
     // Tail move vs growth
     if (growthPending > 0) growthPending--;
-    else snake.shift();
+    else {
+      // normal move; still keep at least MIN_LEN
+      if (snake.length > MIN_LEN) snake.shift();
+    }
 
-    // Self-collision ends the game
-    const h = snake[snake.length-1];
-    for (let i=0;i<snake.length-1;i++){
-      if (same(snake[i], h)) return gameOver();
+    // Self-collision ends the game (skip exactly one frame if we just shrank)
+    if (!skipSelfCheckOnce){
+      const h = snake[snake.length-1];
+      for (let i=0;i<snake.length-1;i++){
+        if (same(snake[i], h)) return gameOver();
+      }
+    } else {
+      skipSelfCheckOnce = false;
     }
 
     // Spawns
@@ -233,6 +249,7 @@
     ctx.save();
     ctx.translate(hx, hy);
     ctx.beginPath();
+    // Keep visual circle around the face (the image itself is your oval cutout PNG)
     ctx.arc(size/2, size/2, size*0.48, 0, Math.PI*2);
     ctx.fillStyle = "#fff";
     ctx.fill();
@@ -245,7 +262,7 @@
     ctx.restore();
     ctx.restore();
 
-    // === Always show overlay if set (ignores 'playing') ===
+    // overlay
     if (gameOverText){
       ctx.fillStyle = "rgba(0,0,0,.55)";
       ctx.fillRect(0,0,canvas.width,canvas.height);
