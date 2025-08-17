@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pac‑Snake (Books & Weights)</title>
+  <link rel="preload" as="image" href="assets/face.png">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Pac‑Snake</h1>
+      <div class="hud">
+        <div>Score: <span id="score">0</span></div>
+        <div>Length: <span id="len">0</span></div>
+        <div>Best: <span id="best">0</span></div>
+        <div>Speed: <span id="speed">1</span>x</div>
+      </div>
+    </header>
+
+    <canvas id="game" width="960" height="540" aria-label="Game canvas"></canvas>
+
+    <section class="controls">
+      <button id="btnStart">Start / Pause</button>
+      <button id="btnRestart">Restart</button>
+      <button id="btnSlow">– Speed</button>
+      <button id="btnFast">+ Speed</button>
+    </section>
+
+    <details class="help" open>
+      <summary>How to play / Embed on GitHub Pages</summary>
+      <div class="grid">
+        <div>
+          <h3>Controls</h3>
+          <ul>
+            <li>Move: Arrow Keys / WASD</li>
+            <li>Pause/Start: Space or click the button</li>
+            <li>Restart: R or click the button</li>
+          </ul>
+          <p><strong>Goal:</strong> Books 📚 and Weights 🏋️ are <em>good</em>.
+            Weights shrink your body; Books add points. Food 🍔 is “ghost-like” and
+            <em>doubles your length</em> on contact. You lose when you fill the screen.</p>
+        </div>
+        <div>
+          <h3>Use your face</h3>
+          <p>Replace <code>/assets/face.png</code> with your headshot (transparent PNG recommended).
+          It will be used as the head of the snake.</p>
+          <h3>Embed on GitHub Pages</h3>
+          <ol>
+            <li>Drop this folder in your repo (e.g. <code>/game/</code>).</li>
+            <li>Link it from any page:<br>
+              <code>&lt;iframe src="/game/index.html" width="960" height="600" style="border:0"&gt;&lt;/iframe&gt;</code>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+
+    <footer>
+      <small>Made for GitHub Pages. No external libs.</small>
+    </footer>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
