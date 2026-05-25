@@ -91,10 +91,21 @@
       gap: var(--gap);
       align-items: center;     /* was: start */
     }
+    /* the column wrapper */
     .photo-card {
       width: var(--photo-w);
-      padding-top: 26px;       /* mirrors the dots' space below so the image lands at the center */
-      /* remove the align-self / margin-top lines from the previous tweak */
+      padding-top: 26px;
+    }
+
+    /* the photo itself */
+    .photo-card img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      object-position: center 20%;
+      border-radius: 20px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+      display: block;
     }
     .dots {
       display: flex;
