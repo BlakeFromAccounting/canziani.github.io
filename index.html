@@ -13,46 +13,40 @@
       color: #333;
     }
 
-    /* Fixed header — thicker (1.5x), stays put on scroll */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      background: url('Blue_bar.jpg') no-repeat center center/cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-      z-index: 1000;
-      overflow: visible;
-    }
+    /* Fixed header — taller (1.5×), nav riding low */
     .header-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 24px;
-      height: 78px;
+      height: 117px;
     }
 
-    /* Big sharp white square logo — extends below the bar */
+    /* Big white logo box: ~1.5 tall × 2 wide, sharp, deep shadow */
     .logo-box {
       align-self: flex-start;
       margin-top: 8px;
-      width: 84px;
-      height: 84px;
+      width: 168px;
+      height: 126px;
       background: #fff;
       border-radius: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+      box-shadow: 0 12px 22px rgba(0,0,0,0.5);
       flex-shrink: 0;
     }
     .logo-box img {
-      height: 70px;
+      height: 104px;
       width: auto;
       display: block;
     }
 
+    /* Push nav links toward the bottom of the blue bar */
+    nav {
+      align-self: flex-end;
+      margin-bottom: 10px;
+    }
     nav a {
       color: #fff;
       text-decoration: none;
@@ -64,12 +58,12 @@
     }
     nav a:hover { background: rgba(255,255,255,0.2); }
 
-    /* Main content — left-aligned, not centered */
+    /* Pull the main column back from the page edge */
     main {
       max-width: 1300px;
       margin-left: 0;
       margin-right: auto;
-      padding: 120px 24px 24px 40px;
+      padding: 160px 24px 24px 90px;
     }
 
     .page-title {
@@ -161,10 +155,11 @@
     }
 
     @media (max-width: 768px) {
-      .header-container { height: 68px; }
-      .logo-box { width: 72px; height: 72px; margin-top: 6px; }
-      .logo-box img { height: 60px; }
-      main { padding: 110px 16px 24px 16px; }
+      .header-container { height: 84px; }
+      .logo-box { width: 120px; height: 90px; margin-top: 6px; }
+      .logo-box img { height: 72px; }
+      nav { margin-bottom: 6px; }
+      main { padding: 130px 16px 24px 20px; }
       .profile { flex-direction: column; align-items: stretch; }
       .photo-card { width: 100%; max-width: 320px; margin: 0 auto; }
       .page-title { font-size: 2rem; }
