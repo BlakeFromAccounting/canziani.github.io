@@ -2,76 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About – Blake Canziani</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CV – Blake Canziani</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css">
   <style>
     body, html {
       margin: 0;
       padding: 0;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: 'Computer Modern Serif', 'Latin Modern Roman', Cambria, Georgia, serif;
       background: #f4f4f4;
       color: #333;
     }
+
+    /* Top blue bar (fixed) */
     header {
       position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: url('Blue_bar.jpg') no-repeat center center/cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
       z-index: 1000;
+      overflow: visible;
+      border-bottom: 3px solid #FA4616;
     }
     .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 20px;
+      padding: 0 24px;
+      height: 117px;
     }
-    .site-title {
-      color: #fff;
-      font-size: 1.25rem;
-      margin: 0;
+    .logo-box {
+      align-self: flex-start;
+      margin-top: 8px;
+      width: 200px;
+      height: 125px;
+      background: #fff;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 22px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+    }
+    .logo-box img {
+      height: 124px;
+      width: auto;
+      display: block;
+    }
+    nav {
+      align-self: flex-end;
+      margin-bottom: 10px;
     }
     nav a {
       color: #fff;
       text-decoration: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-left: 10px;
+      padding: 8px 16px;
+      font-size: 22px;
+      margin-left: 8px;
       transition: background 0.3s;
       border-radius: 4px;
     }
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    /* Content area */
-    .content {
-      margin-top: 60px; /* below fixed header */
-      padding: 40px 20px;
+    nav a:hover { background: rgba(255,255,255,0.2); }
+
+    /* Page content */
+    main {
+      padding: 180px 24px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
       text-align: center;
     }
-    .content h1 {
-      margin-bottom: 20px;
-      font-size: 2rem;
+    .page-title {
+      font-size: 3.4rem;
+      margin: 0 0 24px;
+      color: #222;
     }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="header-container">
-      <h1 class="site-title">Blake Canziani</h1>
-      <nav>
-        <a href="index.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-        <a href="pac-snake/index.html">Game</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="content">
-    <h1>Projects</h1>
-    <p><em>In progress…</em></p>
-  </main>
-</body>
-</html>
