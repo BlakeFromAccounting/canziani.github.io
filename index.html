@@ -59,7 +59,7 @@
       color: #fff;
       text-decoration: none;
       padding: 8px 16px;
-      font-size: 15px;
+      font-size: 18px;         /* was 15 */
       margin-left: 8px;
       transition: background 0.3s;
       border-radius: 4px;
@@ -74,15 +74,14 @@
     /* Profile block — excerpt centered on the page, photo just to its left */
     .profile-wrap {
       --photo-w: 300px;
-      --excerpt-w: 1000px;     /* was 820 — wider */
-      --gap: 60px;
+      --excerpt-w: 1000px;
+      --gap: 80px;        /* was 60 */
       width: calc(var(--photo-w) + var(--gap) + var(--excerpt-w));
       margin-left: auto;
       margin-right: auto;
-      /* transform line removed — row now centers as a unit */
     }
     .page-title {
-      font-size: 2.8rem;
+      font-size: 3.4rem;       /* was 2.8 */
       margin: 0 0 18px 0;
       color: #222;
     }
@@ -94,7 +93,8 @@
     }
     .photo-card {
       width: var(--photo-w);
-      align-self: center;
+      align-self: start;       /* was: center */
+      margin-top: 40px;        /* roughly 10% of the excerpt's min-height */
     }
     .dots {
       display: flex;
@@ -120,7 +120,7 @@
       border-radius: 14px;
       padding: 48px 52px;
       color: #e2e2e2;
-      font-size: 26px;
+      font-size: 23px;         /* was 26 */
       line-height: 1.4;
       text-shadow: 1px 2px 4px rgba(0,0,0,0.55);
       box-shadow: 0 8px 18px rgba(0,0,0,0.2);
