@@ -76,17 +76,37 @@
     }
     .page-title {
       font-size: 3.0rem;
-      margin: 0 0 24px;
+      margin: 0 0 36px;
       color: #222;
     }
 
-     @media (max-width: 768px) {
+    /* Abstract section */
+    .abstract-heading {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 0 0 14px;
+      color: #222;
+    }
+    .abstract-body {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #333;
+      text-align: justify;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+    .abstract-body p { margin: 0 0 14px; }
+    .abstract-body p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 768px) {
       .header-container { height: 84px; }
       .logo-box { width: 120px; height: 90px; margin-top: 6px; }
       .logo-box img { height: 72px; }
       nav { margin-bottom: 6px; }
       main { padding: 130px 16px 40px; }
       .page-title { font-size: 2rem; }
+      .abstract-heading { font-size: 18px; }
+      .abstract-body { font-size: 1rem; }
     }
   </style>
 </head>
@@ -105,12 +125,12 @@
   </header>
 
   <main>
-    <h1 class="page-title">Auditor Intensity Surrounding Non-Routine
-Corporate Events</h1>
+    <h1 class="page-title">Auditor Intensity Surrounding Non-Routine Corporate Events</h1>
 
-    
-
-    
+    <h2 class="abstract-heading">Abstract</h2>
+    <div class="abstract-body">
+      <p>I examine whether auditors are involved in non-routine corporate events outside the scope of periodic financial reporting. This question matters because auditors' expertise in accounting, transactions, and disclosure positions them to shape how material events are recognized and communicated to investors, yet direct evidence of such involvement is sparse because audit work between formal reporting deadlines is not publicly observable. To address this, I develop a method for detecting auditor presence at client headquarters using pseudo-anonymized geolocation data of auditor-affiliated cellular devices. Applying this method to non-routine 8-K filings, I find that auditor presence rises in the weeks immediately preceding 8-K filings, particularly for items pertaining to accounting-, transaction-, or disclosure-related issues. Pre-filing auditor intensity is also significantly associated with the magnitude of the market reaction surrounding the filing, measured by cumulative abnormal returns over a ten-day window centered on the filing date. These findings suggest that auditors are selectively engaged in 8-K events according to their underlying materiality, and provide the first direct evidence that auditor involvement extends to non-routine corporate events beyond periodic reporting.</p>
+    </div>
   </main>
 </body>
 </html>
