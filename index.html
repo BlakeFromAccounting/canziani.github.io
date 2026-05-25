@@ -91,10 +91,14 @@
       gap: var(--gap);
       align-items: start;
     }
-    .photo-card {
-      width: var(--photo-w);
-      align-self: start;       /* was: center */
-      margin-top: 40px;        /* roughly 10% of the excerpt's min-height */
+    .photo-card img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      object-position: center 20%;
+      border-radius: 20px;      /* <-- this one */
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+      display: block;
     }
     .dots {
       display: flex;
