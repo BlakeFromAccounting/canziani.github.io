@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blake Canziani</title>
   <style>
-    /* Reset + base */
     body, html {
       margin: 0;
       padding: 0;
@@ -14,11 +13,12 @@
       color: #333;
     }
 
-    /* Fixed header — styled like the blue bar, but thinner */
+    /* Fixed header — stays put on scroll */
     header {
       position: fixed;
       top: 0;
       left: 0;
+      right: 0;
       width: 100%;
       background: url('Blue_bar.jpg') no-repeat center center/cover;
       box-shadow: 0 4px 10px rgba(0,0,0,0.25);
@@ -30,11 +30,6 @@
       align-items: center;
       padding: 8px 20px;
       min-height: 52px;
-    }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
     }
     .logo-box {
       background: #fff;
@@ -49,13 +44,6 @@
       height: 36px;
       width: auto;
       display: block;
-      filter: grayscale(100%);
-    }
-    .site-title {
-      color: #fff;
-      font-size: 1.5rem;
-      margin: 0;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
     }
     nav a {
       color: #fff;
@@ -68,103 +56,147 @@
     }
     nav a:hover { background: rgba(255,255,255,0.2); }
 
-    /* Thin grey spacer under header */
-    .spacer { height: 8px; background: #f4f4f4; margin-top: 60px; }
+    /* Push content below the fixed header */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 90px 24px 40px;
+    }
 
-    /* Blue bar as the "card" */
-    .hero {
-      position: relative;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      background: url('Blue_bar.jpg') no-repeat center center/cover;
-      padding: 40px 20px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    .page-title {
+      font-size: 2.6rem;
+      margin: 8px 0 28px;
+      color: #222;
     }
-    .hero-content {
+
+    /* Photo + Excerpt row */
+    .profile {
       display: flex;
-      align-items: center;
-      max-width: 1000px;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .photo-card {
+      flex: 0 0 auto;
+      width: clamp(220px, 28vw, 340px);
+    }
+    .photo-card img {
       width: 100%;
-    }
-    .hero-content img {
-      width: clamp(150px, 20vw, 400px);
       height: auto;
       object-fit: cover;
       object-position: center 20%;
-      margin-right: 20px;
       border-radius: 20px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+      display: block;
     }
-    .hero-content .blurb {
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      background: #c5c5c5;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .dot:hover { background: #888; }
+    .dot.active { background: #444; transform: scale(1.2); }
+
+    /* Excerpt card — blue bar styling, light off-gray text with shadow */
+    .excerpt {
       flex: 1;
-      font-size: 24px;
-      line-height: 1.2;
+      min-width: 260px;
+      background: url('Blue_bar.jpg') no-repeat center center/cover;
+      border-radius: 14px;
+      padding: 28px 32px;
       color: #e2e2e2;
+      font-size: 22px;
+      line-height: 1.35;
       text-shadow: 1px 2px 4px rgba(0,0,0,0.55);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+    .excerpt p { margin: 0 0 10px; }
+    .excerpt p:last-child { margin-bottom: 0; }
+
+    /* Quote */
+    .quote {
+      margin: 48px 0 0;
+      padding: 0 12px;
+      font-style: italic;
+      color: #444;
+    }
+    .quote p {
+      font-size: 1.2rem;
+      margin: 0 0 6px;
+    }
+    .quote cite {
+      font-style: normal;
+      color: #666;
     }
 
-    /* Game embed */
-    .game-wrap { max-width: 1000px; margin: 24px auto; padding: 0 20px; }
-    .iframe-16x9 { position: relative; width: 100%; padding-top: 56.25%; border-radius: 10px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,.2); }
-    .iframe-16x9 iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background:#000; }
-
-    /* Small-screen stack */
     @media (max-width: 768px) {
-      .hero-content { flex-direction: column; text-align: center; }
-      .hero-content img { width: 150px; height: 150px; margin: 0 0 20px; }
-      .site-title { font-size: 1.15rem; }
-      .logo-box img { height: 28px; }
+      .profile { flex-direction: column; align-items: stretch; }
+      .photo-card { width: 100%; max-width: 320px; margin: 0 auto; }
+      .page-title { font-size: 2rem; }
+      .excerpt { font-size: 18px; padding: 22px 24px; }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header>
     <div class="header-container">
-      <div class="header-left">
-        <div class="logo-box">
-          <img src="gator.png" alt="Gator logo" />
-        </div>
-        <h1 class="site-title">Blake Canziani</h1>
+      <div class="logo-box">
+        <img src="gator.png" alt="Gator logo" />
       </div>
       <nav>
-        <a href="index.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-        <a href="pac-snake/index.html">Game</a>
+        <a href="index.html">Home</a>
+        <a href="cv.html">CV</a>
+        <a href="dissertation.html">Dissertation</a>
       </nav>
     </div>
   </header>
 
-  <!-- Grey spacer -->
-  <div class="spacer"></div>
+  <main>
+    <h1 class="page-title">Blake Canziani</h1>
 
-  <!-- Blue bar -->
-  <section class="hero">
-    <div class="hero-content">
-      <img src="Blake_pic.jpg" alt="Photo of Blake Canziani" />
-      <div class="blurb">
+    <section class="profile">
+      <div class="photo-card">
+        <img id="profile-photo" src="Blake_pic.jpg" alt="Photo of Blake Canziani" />
+        <div class="dots">
+          <button class="dot active" data-src="Blake_pic.jpg"   aria-label="Photo 1"></button>
+          <button class="dot"        data-src="Blake_pic2.jpg"  aria-label="Photo 2"></button>
+          <button class="dot"        data-src="Blake_pic3.jpg"  aria-label="Photo 3"></button>
+        </div>
+      </div>
+
+      <div class="excerpt">
         <p>PhD Candidate</p>
         <p>University of Florida, Fisher School of Accounting</p>
         <p>Expected Graduation: May 2027</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Game embed -->
-  <section class="game-wrap">
-    <h2 style="margin:0 0 12px 0;">Experience the</h2>
-    <div class="iframe-16x9">
-      <iframe src="pac-snake/index.html" loading="lazy" title="Life of Blake"></iframe>
-    </div>
-    <div style="max-width:1000px;margin:10px auto 0;padding:0 20px;font-size:14px;color:#444;">
-      <strong>How to play:</strong>
-      Click into the game. Hit Space to begin. Move with Arrow Keys. Books 📚 remove burgers 🍔 from the board.
-      Weights 🏋️ shrink your body. Burgers double your length on hit.
-      You lose if you hit your own body or fill the screen.
-      There's no winning—last as long as possible.
-    </div>
-  </section>
+    <blockquote class="quote">
+      <p>"Quote text here."</p>
+      <cite>— Person</cite>
+    </blockquote>
+  </main>
+
+  <script>
+    document.querySelectorAll('.dot').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const photo = document.getElementById('profile-photo');
+        photo.src = btn.dataset.src;
+        document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
