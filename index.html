@@ -74,12 +74,12 @@
     /* Profile block — excerpt centered on the page, photo just to its left */
     .profile-wrap {
       --photo-w: 300px;
-      --excerpt-w: 820px;
-      --gap: 32px;
+      --excerpt-w: 1000px;     /* was 820 — wider */
+      --gap: 60px;
       width: calc(var(--photo-w) + var(--gap) + var(--excerpt-w));
       margin-left: auto;
       margin-right: auto;
-      transform: translateX(calc(-1 * (var(--photo-w) + var(--gap)) / 2));
+      /* transform line removed — row now centers as a unit */
     }
     .page-title {
       font-size: 2.8rem;
@@ -150,7 +150,7 @@
     .quote cite { font-style: normal; color: #666; }
 
     /* Stack on narrow screens */
-    @media (max-width: 1180px) {
+    @media (max-width: 1400px) {     /* was 1180 */
       .profile-wrap {
         width: auto;
         max-width: var(--excerpt-w);
