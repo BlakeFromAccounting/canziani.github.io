@@ -89,16 +89,12 @@
       display: grid;
       grid-template-columns: var(--photo-w) var(--excerpt-w);
       gap: var(--gap);
-      align-items: start;
+      align-items: center;     /* was: start */
     }
-    .photo-card img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      object-position: center 20%;
-      border-radius: 20px;      /* <-- this one */
-      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
-      display: block;
+    .photo-card {
+      width: var(--photo-w);
+      padding-top: 26px;       /* mirrors the dots' space below so the image lands at the center */
+      /* remove the align-self / margin-top lines from the previous tweak */
     }
     .dots {
       display: flex;
@@ -214,7 +210,7 @@
 
   <section class="quote-wrap">
     <blockquote class="quote">
-      <p>"[Blake] do[es] such amazing work and [is] just such an amazing person. [Blake] make[s] grandma so proud."</p>
+      <p>"[Blake] does such great work and is just such an amazing person. [Blake] makes grandma so proud."</p>
       <cite>— Grandma</cite>
     </blockquote>
   </section>
