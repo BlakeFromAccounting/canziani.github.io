@@ -289,7 +289,7 @@
       ctx.font = `${Math.floor(size * 1.8)}px Impact, sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText("BABY BREAK!", canvas.width/2, canvas.height/2 - size*0.9);
+      ctx.fillText("Feed the Baby!", canvas.width/2, canvas.height/2 - size*0.9);
 
       ctx.fillStyle = "#fff";
       ctx.font = `${Math.floor(size * 1.4)}px Impact, sans-serif`;
