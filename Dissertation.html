@@ -35,20 +35,14 @@
       height: 117px;
     }
     .logo-box {
-      align-self: flex-start;
-      margin-top: 8px;
-      width: 200px;
-      height: 125px;
-      background: #fff;
-      border-radius: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 12px 22px rgba(0,0,0,0.5);
       flex-shrink: 0;
+      /* removed: align-self, margin-top, width, height, background, border-radius, box-shadow */
     }
     .logo-box img {
-      height: 124px;
+      height: 95px;         /* tweak: 80–110 to taste — bar is 117px tall */
       width: auto;
       display: block;
     }
@@ -100,13 +94,12 @@
 
     @media (max-width: 768px) {
       .header-container { height: 84px; }
-      .logo-box { width: 120px; height: 90px; margin-top: 6px; }
-      .logo-box img { height: 72px; }
+      .logo-box { /* nothing needed here anymore */ }
+      .logo-box img { height: 60px; }
       nav { margin-bottom: 6px; }
-      main { padding: 130px 16px 40px; }
+      main { padding: 120px 16px 24px; }
       .page-title { font-size: 2rem; }
-      .abstract-heading { font-size: 18px; }
-      .abstract-body { font-size: 1rem; }
+      .excerpt { font-size: 18px; padding: 24px 24px; min-height: 0; }
     }
   </style>
 </head>
