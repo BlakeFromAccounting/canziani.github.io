@@ -86,18 +86,15 @@
       margin: 0 0 18px 0;
       color: #222;
     }
-    .profile { align-items: start; }
-    .photo-card {
-      align-self: center;    /* center the whole photo-card (image + dots) */
+    .profile {
+      display: grid;
+      grid-template-columns: var(--photo-w) var(--excerpt-w);
+      gap: var(--gap);
+      align-items: start;
     }
-    .photo-card img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      object-position: center 20%;
-      border-radius: 20px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
-      display: block;
+    .photo-card {
+      width: var(--photo-w);
+      align-self: center;
     }
     .dots {
       display: flex;
