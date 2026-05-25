@@ -13,7 +13,18 @@
       color: #333;
     }
 
-    /* Fixed header — taller (1.5×), nav riding low */
+    /* Top blue bar (fixed) */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: url('Blue_bar.jpg') no-repeat center center/cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      z-index: 1000;
+      overflow: visible;
+    }
     .header-container {
       display: flex;
       justify-content: space-between;
@@ -21,8 +32,6 @@
       padding: 0 24px;
       height: 117px;
     }
-
-    /* Big white logo box: ~1.5 tall × 2 wide, sharp, deep shadow */
     .logo-box {
       align-self: flex-start;
       margin-top: 8px;
@@ -41,8 +50,6 @@
       width: auto;
       display: block;
     }
-
-    /* Push nav links toward the bottom of the blue bar */
     nav {
       align-self: flex-end;
       margin-bottom: 10px;
@@ -58,30 +65,34 @@
     }
     nav a:hover { background: rgba(255,255,255,0.2); }
 
-    /* Pull the main column back from the page edge */
+    /* Main column */
     main {
-      max-width: 1300px;
-      margin-left: 0;
-      margin-right: auto;
-      padding: 160px 24px 24px 90px;
+      padding: 160px 24px 24px;
     }
 
+    /* Profile block — excerpt centered on the page, photo just to its left */
+    .profile-wrap {
+      --photo-w: 300px;
+      --excerpt-w: 720px;
+      --gap: 32px;
+      width: calc(var(--photo-w) + var(--gap) + var(--excerpt-w));
+      margin-left: auto;
+      margin-right: auto;
+      transform: translateX(calc(-1 * (var(--photo-w) + var(--gap)) / 2));
+    }
     .page-title {
       font-size: 2.8rem;
-      margin: 8px 0 28px;
+      margin: 0 0 18px 0;
       color: #222;
     }
-
-    /* Photo + Excerpt row — photo on the left, big excerpt on the right */
     .profile {
-      display: flex;
-      gap: 36px;
-      align-items: flex-start;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: var(--photo-w) var(--excerpt-w);
+      gap: var(--gap);
+      align-items: start;
     }
     .photo-card {
-      flex: 0 0 auto;
-      width: clamp(220px, 24vw, 320px);
+      width: var(--photo-w);
     }
     .photo-card img {
       width: 100%;
@@ -111,11 +122,7 @@
     .dot:hover { background: #888; }
     .dot.active { background: #444; transform: scale(1.2); }
 
-    /* Bigger excerpt card */
     .excerpt {
-      flex: 1;
-      min-width: 320px;
-      min-height: 300px;
       background: url('Blue_bar.jpg') no-repeat center center/cover;
       border-radius: 14px;
       padding: 40px 44px;
@@ -124,6 +131,7 @@
       line-height: 1.4;
       text-shadow: 1px 2px 4px rgba(0,0,0,0.55);
       box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+      min-height: 300px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -145,23 +153,29 @@
       color: #444;
       margin: 0;
     }
-    .quote p {
-      font-size: 1.25rem;
-      margin: 0 0 8px;
-    }
-    .quote cite {
-      font-style: normal;
-      color: #666;
-    }
+    .quote p { font-size: 1.25rem; margin: 0 0 8px; }
+    .quote cite { font-style: normal; color: #666; }
 
+    /* Stack on narrow screens */
+    @media (max-width: 1100px) {
+      .profile-wrap {
+        width: auto;
+        max-width: var(--excerpt-w);
+        transform: none;
+      }
+      .profile {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+      .photo-card { width: min(var(--photo-w), 100%); }
+      .excerpt { width: 100%; }
+    }
     @media (max-width: 768px) {
       .header-container { height: 84px; }
       .logo-box { width: 120px; height: 90px; margin-top: 6px; }
       .logo-box img { height: 72px; }
       nav { margin-bottom: 6px; }
-      main { padding: 130px 16px 24px 20px; }
-      .profile { flex-direction: column; align-items: stretch; }
-      .photo-card { width: 100%; max-width: 320px; margin: 0 auto; }
+      main { padding: 120px 16px 24px; }
       .page-title { font-size: 2rem; }
       .excerpt { font-size: 18px; padding: 24px 24px; min-height: 0; }
     }
@@ -182,24 +196,24 @@
   </header>
 
   <main>
-    <h1 class="page-title">Blake Canziani</h1>
-
-    <section class="profile">
-      <div class="photo-card">
-        <img id="profile-photo" src="Blake_pic.jpg" alt="Photo of Blake Canziani" />
-        <div class="dots">
-          <button class="dot active" data-src="Blake_pic.jpg"   aria-label="Photo 1"></button>
-          <button class="dot"        data-src="Blake_pic2.jpg"  aria-label="Photo 2"></button>
-          <button class="dot"        data-src="Blake_pic3.jpg"  aria-label="Photo 3"></button>
+    <div class="profile-wrap">
+      <h1 class="page-title">Blake Canziani</h1>
+      <div class="profile">
+        <div class="photo-card">
+          <img id="profile-photo" src="Blake_pic.jpg" alt="Photo of Blake Canziani" />
+          <div class="dots">
+            <button class="dot active" data-src="Blake_pic.jpg"  aria-label="Photo 1"></button>
+            <button class="dot"        data-src="Blake_pic2.jpg" aria-label="Photo 2"></button>
+            <button class="dot"        data-src="Blake_pic3.jpg" aria-label="Photo 3"></button>
+          </div>
+        </div>
+        <div class="excerpt">
+          <p>PhD Candidate</p>
+          <p>University of Florida, Fisher School of Accounting</p>
+          <p>Expected Graduation: May 2027</p>
         </div>
       </div>
-
-      <div class="excerpt">
-        <p>PhD Candidate</p>
-        <p>University of Florida, Fisher School of Accounting</p>
-        <p>Expected Graduation: May 2027</p>
-      </div>
-    </section>
+    </div>
   </main>
 
   <section class="quote-wrap">
