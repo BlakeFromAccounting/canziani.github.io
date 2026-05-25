@@ -35,8 +35,8 @@
     .logo-box {
       align-self: flex-start;
       margin-top: 8px;
-      width: 168px;
-      height: 126px;
+      width: 200px;
+      height: 150px;
       background: #fff;
       border-radius: 0;
       display: flex;
@@ -46,7 +46,7 @@
       flex-shrink: 0;
     }
     .logo-box img {
-      height: 104px;
+      height: 124px;
       width: auto;
       display: block;
     }
@@ -73,7 +73,7 @@
     /* Profile block — excerpt centered on the page, photo just to its left */
     .profile-wrap {
       --photo-w: 300px;
-      --excerpt-w: 720px;
+      --excerpt-w: 820px;
       --gap: 32px;
       width: calc(var(--photo-w) + var(--gap) + var(--excerpt-w));
       margin-left: auto;
@@ -85,14 +85,9 @@
       margin: 0 0 18px 0;
       color: #222;
     }
-    .profile {
-      display: grid;
-      grid-template-columns: var(--photo-w) var(--excerpt-w);
-      gap: var(--gap);
-      align-items: start;
-    }
+    .profile { align-items: start; }
     .photo-card {
-      width: var(--photo-w);
+      align-self: center;    /* center the whole photo-card (image + dots) */
     }
     .photo-card img {
       width: 100%;
@@ -125,13 +120,13 @@
     .excerpt {
       background: url('Blue_bar.jpg') no-repeat center center/cover;
       border-radius: 14px;
-      padding: 40px 44px;
+      padding: 48px 52px;
       color: #e2e2e2;
       font-size: 26px;
       line-height: 1.4;
       text-shadow: 1px 2px 4px rgba(0,0,0,0.55);
       box-shadow: 0 8px 18px rgba(0,0,0,0.2);
-      min-height: 300px;
+      min-height: 340px;
       display: flex;
       flex-direction: column;
       justify-content: center;
