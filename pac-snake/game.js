@@ -4,12 +4,13 @@
   const GRID_H = 18;
   const BASE_SPEED = 6;
 
-  // Burgers >> Weights; Books rare
-  const ITEM_LIMITS   = { book: 2,  weight: 2,  food: 18 };
-  const SPAWN_CHANCE  = { book: 0.010, weight: 0.010, food: 0.120 };
+  // Burgers >> Weights; Books / Bottles rare
+  const ITEM_LIMITS   = { book: 2,  weight: 2,  food: 18, bottle: 2 };
+  const SPAWN_CHANCE  = { book: 0.010, weight: 0.010, food: 0.120, bottle: 0.010 };
   const WEIGHT_SHRINK_BY = 3;
   const MIN_LEN = 1;                 // never shrink below this
   const BOOK_BURGER_REMOVALS = 5;    // books remove ONLY burgers
+  const HAZARD_PAUSE_MS = 10000;     // bottle freezes you for 10s
 
   // ======= State =======
   const canvas  = document.getElementById("game");
@@ -22,14 +23,15 @@
   let dir = { x: 1, y: 0 }, nextDir = { x: 1, y: 0 };
   let snake = [];
   let growthPending = 0;
-  let items = []; // {x,y,type:'book'|'weight'|'food'}
+  let items = []; // {x,y,type:'book'|'weight'|'food'|'bottle'}
 
   let playing = false;
   let lastStepTime = 0;
+  let lastFrameTime = 0;
   let stepInterval = 1000 / BASE_SPEED;
   let speedMult = 1;
 
-  let startTime = 0, elapsed = 0;
+  let elapsed = 0;
   let bestTime = Number(localStorage.getItem("pacsnake.bestTime") || 0);
 
   // overlay text when game is over
@@ -37,6 +39,9 @@
 
   // one-frame flag to skip self-collision after a weight shrink
   let skipSelfCheckOnce = false;
+
+  // Hazard pause (bottle)
+  let hazardPauseEnd = 0; // timestamp (ms) when current pause ends
 
   const headImg = new Image();
   headImg.src = "assets/face.png";
@@ -63,6 +68,7 @@
     elapsed = 0;
     gameOverText = "";
     skipSelfCheckOnce = false;
+    hazardPauseEnd = 0;
 
     // Start length 5 in center
     const cx = Math.floor(GRID_W/2), cy = Math.floor(GRID_H/2);
@@ -71,6 +77,7 @@
     // Pre-seed
     trySpawn("book");
     trySpawn("weight");
+    trySpawn("bottle");
     for (let i=0;i<10;i++) trySpawn("food");
 
     playing = false;
@@ -83,7 +90,7 @@
     if (gameOverText) return;
     playing = !playing;
     if (playing){
-      startTime = performance.now() - elapsed*1000;
+      lastFrameTime = performance.now();
       lastStepTime = performance.now();
       requestAnimationFrame(loop);
     } else {
@@ -99,11 +106,21 @@
 
   function loop(now){
     if (!playing) return;
-    elapsed = (now - startTime)/1000;
-    if (now - lastStepTime >= stepInterval){
-      step();
+    const dt = now - lastFrameTime;
+    lastFrameTime = now;
+
+    const inHazardPause = hazardPauseEnd > now;
+    if (inHazardPause) {
+      // frozen — don't step, don't tick elapsed
       lastStepTime = now;
+    } else {
+      elapsed += dt / 1000;
+      if (now - lastStepTime >= stepInterval){
+        step();
+        lastStepTime = now;
+      }
     }
+
     draw();
     updateHUD();
     requestAnimationFrame(loop);
@@ -125,16 +142,17 @@
       if (it.type === "book"){
         removeSomeBurgers(BOOK_BURGER_REMOVALS);          // only burgers
       } else if (it.type === "weight"){
-        // shrink, but never below MIN_LEN
         const shrinkBy = Math.min(WEIGHT_SHRINK_BY, Math.max(0, snake.length - MIN_LEN));
         for (let i=0; i<shrinkBy; i++) snake.shift();
-        // avoid any accidental self-hit in this exact frame after a big shrink
         skipSelfCheckOnce = true;
       } else if (it.type === "food"){
         const currentLen = snake.length;
         const totalCells = GRID_W * GRID_H;
         const inc = Math.min(currentLen, totalCells - currentLen);
         growthPending += inc;
+      } else if (it.type === "bottle"){
+        // freeze for 10 seconds
+        hazardPauseEnd = performance.now() + HAZARD_PAUSE_MS;
       }
       items.splice(hitIdx, 1);
     }
@@ -142,11 +160,10 @@
     // Tail move vs growth
     if (growthPending > 0) growthPending--;
     else {
-      // normal move; still keep at least MIN_LEN
       if (snake.length > MIN_LEN) snake.shift();
     }
 
-    // Self-collision ends the game (skip exactly one frame if we just shrank)
+    // Self-collision ends the game
     if (!skipSelfCheckOnce){
       const h = snake[snake.length-1];
       for (let i=0;i<snake.length-1;i++){
@@ -160,6 +177,7 @@
     if (countItems("book")   < ITEM_LIMITS.book   && Math.random() < SPAWN_CHANCE.book)   trySpawn("book");
     if (countItems("weight") < ITEM_LIMITS.weight && Math.random() < SPAWN_CHANCE.weight) trySpawn("weight");
     if (countItems("food")   < ITEM_LIMITS.food   && Math.random() < SPAWN_CHANCE.food)   trySpawn("food");
+    if (countItems("bottle") < ITEM_LIMITS.bottle && Math.random() < SPAWN_CHANCE.bottle) trySpawn("bottle");
 
     // Lose if full
     if (snake.length >= GRID_W*GRID_H) return gameOver();
@@ -172,7 +190,7 @@
       localStorage.setItem("pacsnake.bestTime", String(bestTime));
     }
     gameOverText = "Burgers Win!";
-    draw(); // paint overlay right away
+    draw();
   }
 
   // Helpers
@@ -207,7 +225,6 @@
 
   // ======= Rendering =======
   function draw(){
-    // Resize canvas to CSS size to keep crisp grid
     const rect = canvas.getBoundingClientRect();
     const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
     const targetW = Math.floor(rect.width * dpr);
@@ -229,9 +246,10 @@
 
     // items
     for (const it of items){
-      if (it.type==="book")  drawEmoji("📚", it.x, it.y, size);
+      if (it.type==="book")        drawEmoji("📚", it.x, it.y, size);
       else if (it.type==="weight") drawEmoji("🏋️", it.x, it.y, size);
       else if (it.type==="food")   drawEmoji("🍔", it.x, it.y, size);
+      else if (it.type==="bottle") drawEmoji("🍼", it.x, it.y, size);
     }
 
     // body
@@ -249,7 +267,6 @@
     ctx.save();
     ctx.translate(hx, hy);
     ctx.beginPath();
-    // Keep visual circle around the face (the image itself is your oval cutout PNG)
     ctx.arc(size/2, size/2, size*0.48, 0, Math.PI*2);
     ctx.fillStyle = "#fff";
     ctx.fill();
@@ -262,7 +279,24 @@
     ctx.restore();
     ctx.restore();
 
-    // overlay
+    // hazard-pause overlay (only when not game-over)
+    if (!gameOverText && hazardPauseEnd > performance.now()){
+      const secondsLeft = (hazardPauseEnd - performance.now()) / 1000;
+      ctx.fillStyle = "rgba(0,0,0,.55)";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      ctx.fillStyle = "#ffd54a";
+      ctx.font = `${Math.floor(size * 1.8)}px Impact, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("BABY BREAK!", canvas.width/2, canvas.height/2 - size*0.9);
+
+      ctx.fillStyle = "#fff";
+      ctx.font = `${Math.floor(size * 1.4)}px Impact, sans-serif`;
+      ctx.fillText(`${secondsLeft.toFixed(1)}s`, canvas.width/2, canvas.height/2 + size*0.6);
+    }
+
+    // game over overlay
     if (gameOverText){
       ctx.fillStyle = "rgba(0,0,0,.55)";
       ctx.fillRect(0,0,canvas.width,canvas.height);
