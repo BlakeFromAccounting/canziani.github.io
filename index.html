@@ -170,15 +170,40 @@
       .photo-card { width: min(var(--photo-w), 100%); }
       .excerpt { width: 100%; }
     }
-    @media (max-width: 768px) {
-      .header-container { height: 84px; }
-      .logo-box { /* nothing needed here anymore */ }
-      .logo-box img { height: 60px; }
-      nav { margin-bottom: 6px; }
-      main { padding: 120px 16px 24px; }
-      .page-title { font-size: 2rem; }
-      .excerpt { font-size: 18px; padding: 24px 24px; min-height: 0; }
-    }
+@media (max-width: 768px) {
+  .header-container { height: 84px; }
+  .logo-box { /* nothing needed here anymore */ }
+  .logo-box img { height: 60px; }
+  nav { margin-bottom: 6px; }
+  main { padding: 120px 16px 24px; }
+
+  .page-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .profile-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .photo-card {
+    width: 100%;
+    max-width: 280px;       /* keeps photo from getting huge on tablets */
+    margin: 0 auto;
+    padding-top: 0;
+  }
+
+  .excerpt {
+    font-size: 18px;
+    padding: 24px 24px;
+    min-height: 0;
+    text-align: center;
+  }
+
+  .quote-wrap { padding: 32px 16px 40px; }
+  .quote p { font-size: 1.05rem; }
+}
   </style>
 </head>
 <body>
